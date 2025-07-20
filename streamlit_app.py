@@ -13,12 +13,15 @@ error_message = "Sorry, Something Went Wrong!"
 
 st.header("Policy Analyzer Query Application")
 
-model_choice = st.sidebar.radio("Choose the LLM Model", ["OpenAI", "Azure OpenAI"])
+model_choice = st.sidebar.radio("Choose the LLM Model", ["OpenAI", "Azure OpenAI", "Gemini"])
 
 # Set the vector store and LLM model based on the user selection
 if model_choice == "Azure OpenAI":
     vector_embed_fn = vector_store.azure_openai_embedding
     llm_model_fn = llm_models.azure_llm_model
+elif model_choice == "Gemini":
+    vector_embed_fn = vector_store.gemini_embedding
+    llm_model_fn = llm_models.gemini_llm_model
 else:
     vector_embed_fn = vector_store.openai_embedding
     llm_model_fn = llm_models.openai_llm_model

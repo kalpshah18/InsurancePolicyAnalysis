@@ -1,5 +1,6 @@
 from langchain_openai import AzureOpenAIEmbeddings, OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 import os
 
@@ -33,6 +34,17 @@ class VectorStore:
             openai_api_base=os.environ.get('API_BASE') + os.environ.get('EMBEDDING_DEPLOYMENT_NAME'),
             openai_api_version=os.environ.get('AZURE_AI_SEARCH_API_VERSION'),
             openai_api_key=os.environ.get('API_KEY'),
+        )
+        return embeddings_model
+    
+    def gemini_embedding(self):
+        """
+        Make embedding model call with Gemini
+        :return: embedding model
+        """
+        embeddings_model = GoogleGenerativeAIEmbeddings(
+            model="models/text-embedding-004",
+            google_api_key=os.environ.get('GEMINI_API_KEY')
         )
         return embeddings_model
 

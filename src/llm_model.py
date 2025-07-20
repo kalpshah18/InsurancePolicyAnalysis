@@ -1,4 +1,5 @@
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +13,7 @@ class LLMModel:
     def openai_llm_model(self, temperature=None, model_name=None):
 
         if temperature is None:
-            temperature = 0.6
+            temperature = 0.2
 
         if model_name:
             openai_model_name = model_name
@@ -30,7 +31,7 @@ class LLMModel:
     def azure_llm_model(self, temperature=None, deployment_name=None):
 
         if temperature is None:
-            temperature = 0.6
+            temperature = 0.2
 
         if deployment_name:
             azure_deployment_name = deployment_name
@@ -45,3 +46,19 @@ class LLMModel:
             temperature=temperature
         )
         return azure_llm
+    
+    def gemini_llm_model(self, temperature=None, model_name=None):
+        if temperature is None:
+            temperature = 0.2
+
+        if model_name:
+            gemini_model_name = model_name
+        else:
+            gemini_model_name = 'gemini-2.0-flash-exp'
+        
+        gemini_llm = ChatGoogleGenerativeAI(
+            model=gemini_model_name,
+            google_api_key=os.environ.get('GEMINI_API_KEY'),
+            temperature=temperature
+        )
+        return gemini_llm
