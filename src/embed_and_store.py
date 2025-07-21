@@ -3,6 +3,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 import os
+import streamlit as st
 
 load_dotenv()
 
@@ -11,6 +12,13 @@ class VectorStore:
 
     def __init__(self):
         self.faiss_folder_name = "faiss_index"
+    
+    def _get_secret(self, key, default=None):
+        """Get secret from Streamlit secrets or environment variables"""
+        try:
+            return st.secrets.get(key, os.environ.get(key, default))
+        except Exception:
+            return os.environ.get(key, default)
 
     def openai_embedding(self):
         """
@@ -19,7 +27,7 @@ class VectorStore:
         :return: embedding model
         """
         embeddings_model = OpenAIEmbeddings(
-            api_key=os.environ.get('OPENAI_API_KEY'),
+            api_key=self._get_secret('OPENAI_API_KEY'),
             model="text-embedding-3-large"
         )
         return embeddings_model
@@ -31,9 +39,9 @@ class VectorStore:
         :return: embedding model
         """
         embeddings_model = AzureOpenAIEmbeddings(
-            openai_api_base=os.environ.get('API_BASE') + os.environ.get('EMBEDDING_DEPLOYMENT_NAME'),
-            openai_api_version=os.environ.get('AZURE_AI_SEARCH_API_VERSION'),
-            openai_api_key=os.environ.get('API_KEY'),
+            openai_api_base=self._get_secret('API_BASE') + self._get_secret('EMBEDDING_DEPLOYMENT_NAME'),
+            openai_api_version=self._get_secret('AZURE_AI_SEARCH_API_VERSION'),
+            openai_api_key=self._get_secret('API_KEY'),
         )
         return embeddings_model
     
@@ -44,7 +52,7 @@ class VectorStore:
         """
         embeddings_model = GoogleGenerativeAIEmbeddings(
             model="models/text-embedding-004",
-            google_api_key=os.environ.get('GEMINI_API_KEY')
+            google_api_key=self._get_secret('GOOGLE_API_KEY')
         )
         return embeddings_model
 

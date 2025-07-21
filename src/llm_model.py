@@ -2,13 +2,22 @@ from langchain_openai import AzureChatOpenAI, ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
+import streamlit as st
 
+# Load environment variables for local development
 load_dotenv()
 
 class LLMModel:
 
     def __init__(self):
         pass
+    
+    def _get_secret(self, key, default=None):
+        """Get secret from Streamlit secrets or environment variables"""
+        try:
+            return st.secrets.get(key, os.environ.get(key, default))
+        except Exception:
+            return os.environ.get(key, default)
 
     def openai_llm_model(self, temperature=None, model_name=None):
 
@@ -21,7 +30,7 @@ class LLMModel:
             openai_model_name = 'gpt-4o'
 
         openai_llm = ChatOpenAI(
-            api_key=os.environ.get('OPENAI_API_KEY'),
+            api_key=self._get_secret('OPENAI_API_KEY'),
             model_name=openai_model_name,
             temperature=temperature
         )
@@ -39,10 +48,10 @@ class LLMModel:
             azure_deployment_name = 'DEPLOYMENT_NAME_GPT4o'
 
         azure_llm = AzureChatOpenAI(
-            openai_api_base=os.environ.get('API_BASE') + os.environ.get(azure_deployment_name),
-            openai_api_version=os.environ.get('API_VERSION'),
-            openai_api_key=os.environ.get('API_KEY'),
-            openai_api_type=os.environ.get('API_TYPE'),
+            openai_api_base=self._get_secret('API_BASE') + self._get_secret(azure_deployment_name),
+            openai_api_version=self._get_secret('API_VERSION'),
+            openai_api_key=self._get_secret('API_KEY'),
+            openai_api_type=self._get_secret('API_TYPE'),
             temperature=temperature
         )
         return azure_llm
@@ -58,7 +67,7 @@ class LLMModel:
         
         gemini_llm = ChatGoogleGenerativeAI(
             model=gemini_model_name,
-            google_api_key=os.environ.get('GEMINI_API_KEY'),
+            google_api_key=self._get_secret('GOOGLE_API_KEY'),
             temperature=temperature
         )
         return gemini_llm

@@ -26,7 +26,9 @@ Before running the application, you'll need API keys for at least one of the fol
 - **Azure OpenAI credentials** (for Azure OpenAI models)
 - **Google API Key** (for Gemini models)
 
-## Installation
+## Quick Start
+
+### Local Development
 
 1. **Clone the repository**:
    ```bash
@@ -40,11 +42,30 @@ Before running the application, you'll need API keys for at least one of the fol
    ```
 
 3. **Set up environment variables**:
-   Create a `.env` file in the backend directory and add your API keys:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your actual API keys
+   ```
 
-   ```env
-   # OpenAI Configuration
-   OPENAI_API_KEY=your_openai_api_key_here
+4. **Run the application**:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
+
+### Streamlit Cloud Deployment
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+**Quick Deploy:**
+1. Fork this repository on GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Create a new app from your forked repository
+4. Add your API keys in the Secrets section
+5. Your app will be live at `https://[your-app-name].streamlit.app`
+
+## Configuration
+
+You'll need API keys for at least one of the following services:
    
    # Azure OpenAI Configuration (if using Azure)
    API_KEY=your_azure_openai_api_key
@@ -82,7 +103,7 @@ backend/
 │   ├── embed_and_store.py      # Vector embeddings and FAISS storage
 │   ├── llm_model.py           # LLM model configurations
 │   └── retrieval_qa.py        # RAG implementation
-├── faiss_index/               # Vector database storage (Created Automatically when Program is Run)
+├── faiss_index/               # Vector database storage (Created Automatically when Program is Runw)
 ├── streamlit_app.py          # Main Streamlit application
 ├── requirements.txt          # Python dependencies
 ├── README.md                # Project documentation
