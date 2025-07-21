@@ -82,12 +82,10 @@ backend/
 │   ├── embed_and_store.py      # Vector embeddings and FAISS storage
 │   ├── llm_model.py           # LLM model configurations
 │   └── retrieval_qa.py        # RAG implementation
-├── faiss_index/               # Vector database storage
+├── faiss_index/               # Vector database storage (Created Automatically when Program is Run)
 ├── streamlit_app.py          # Main Streamlit application
 ├── requirements.txt          # Python dependencies
 ├── README.md                # Project documentation
-├── testDocument1.pdf        # Sample test document
-└── testDocument2.pdf        # Sample test document
 ```
 
 ## How It Works
