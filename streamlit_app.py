@@ -47,15 +47,12 @@ if not check_api_keys():
 
 st.header("Ask Questions About Your Documents")
 
-model_choice = st.sidebar.radio("Choose the LLM Model", ["OpenAI", "Azure OpenAI", "Gemini"])
+model_choice = st.sidebar.radio("Choose the LLM Model", ["Azure OpenAI"])
 
 # Set the vector store and LLM model based on the user selection
 if model_choice == "Azure OpenAI":
     vector_embed_fn = vector_store.azure_openai_embedding
     llm_model_fn = llm_models.azure_llm_model
-elif model_choice == "Gemini":
-    vector_embed_fn = vector_store.gemini_embedding
-    llm_model_fn = llm_models.gemini_llm_model
 else:
     vector_embed_fn = vector_store.openai_embedding
     llm_model_fn = llm_models.openai_llm_model
