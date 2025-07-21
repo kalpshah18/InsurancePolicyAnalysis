@@ -47,25 +47,13 @@ if not check_api_keys():
 
 st.header("Ask Questions About Your Documents")
 
-model_choice = st.sidebar.radio("Choose the LLM Model", ["Azure OpenAI"])
+model_choice = "Azure OpenAI"
 
-# Set the vector store and LLM model based on the user selection
-if model_choice == "Azure OpenAI":
-    vector_embed_fn = vector_store.azure_openai_embedding
-    llm_model_fn = llm_models.azure_llm_model
-else:
-    vector_embed_fn = vector_store.openai_embedding
-    llm_model_fn = llm_models.openai_llm_model
+
+vector_embed_fn = vector_store.azure_openai_embedding
+llm_model_fn = llm_models.azure_llm_model
 
 document_upload = st.sidebar.file_uploader("📁 Upload Document (PDF, DOCX)", type=["pdf", "docx"])
-
-# Add information about supported models
-with st.sidebar.expander("ℹ️ Model Information"):
-    st.markdown("""
-    **OpenAI**: GPT-4o with high accuracy
-    **Azure OpenAI**: Enterprise-grade OpenAI models
-    **Gemini**: Google's latest AI model
-    """)
 
 if 'vector_db' not in st.session_state:
     st.session_state.vector_db = None
